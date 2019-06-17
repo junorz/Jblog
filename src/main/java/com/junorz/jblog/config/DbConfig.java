@@ -33,6 +33,7 @@ public class DbConfig {
         private String password;
         private boolean showSql;
         private String mode;
+        private boolean createDdlScript;
         
         public HibernateJpaVendorAdapter vendorAdapter() {
             HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
@@ -43,6 +44,11 @@ public class DbConfig {
         public Properties jpaProperties() {
             Properties properties = new Properties();
             properties.put("hibernate.hbm2ddl.auto", mode);
+            if (createDdlScript) {
+            	properties.put("javax.persistence.schema-generation.create-source", "metadata");
+            	properties.put("javax.persistence.schema-generation.scripts.action", "create");
+            	properties.put("javax.persistence.schema-generation.scripts.create-target", "create.sql");
+            }
             return properties;
         }
         

@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "blog")
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = -9219549591453118055L;
