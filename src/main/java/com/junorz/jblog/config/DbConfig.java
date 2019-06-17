@@ -60,6 +60,7 @@ public class DbConfig {
         dataSource.setJdbcUrl(dbInfo.getJdbc());
         dataSource.setUsername(dbInfo.getUsername());
         dataSource.setPassword(dbInfo.getPassword());
+        dataSource.setMaxLifetime(60000);
         return dataSource;
     }
     
