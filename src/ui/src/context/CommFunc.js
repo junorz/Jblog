@@ -1,5 +1,5 @@
 import moment from "moment";
-moment.locale("ja");
+moment.locale("zh-cn");
 
 export default {
     filters: {
