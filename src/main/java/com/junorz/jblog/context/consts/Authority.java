@@ -3,7 +3,7 @@ package com.junorz.jblog.context.consts;
 public enum Authority {
     ROLE_USER("USER"), 
     ROLE_ADMIN("ADMIN"),
-    ROLE_SUPERADMIN("SUPER_ADMIN");
+    ROLE_SUPER_ADMIN("SUPER_ADMIN");
     
     private String roleName;
     

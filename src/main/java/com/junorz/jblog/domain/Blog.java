@@ -71,7 +71,7 @@ public class Blog implements Serializable {
         user.setName(dto.getAdminName());
         user.setPassword(pe.encode(dto.getPassword()));
         user.setAvaliable(true);
-        user.setAuthority(Authority.ROLE_SUPERADMIN);
+        user.setAuthority(Authority.ROLE_SUPER_ADMIN);
         
         Blog blog = new Blog();
         blog.setName(dto.getBlogName());

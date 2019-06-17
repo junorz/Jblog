@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/").permitAll()
             .antMatchers("/jblog/api/blog/create").permitAll()
             .antMatchers("/jblog/api/blog/login").permitAll()
-            .antMatchers("/jblog/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPERADMIN.getRoleName());
+            .antMatchers("/jblog/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName());
 
     }
 
