@@ -38,7 +38,7 @@ export default {
         URLs.blog.login,
         formData,
         () => this.$router.push("/admin"),
-        () => this.$message.error("認証失敗しました")
+        () => this.$message.error("认证失败")
       );
     }
   },
