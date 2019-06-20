@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && npm run copyIndex && npm run copyStatic",
+    "build": "vue-cli-service build && npm run clean && npm run copyIndex && npm run copyStatic",
     "lint": "vue-cli-service lint",
+    "clean": "rimraf ../main/resources/static/*",
     "copyIndex": "cpx ./dist/index.html ../main/resources/templates",
     "copyStatic": "cpx ./dist/favicon.ico ../main/resources/static && cpx ./dist/{css,fonts,img,js}/** ../main/resources/static"
   },
@@ -28,6 +29,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.9.2",
+    "rimraf": "^2.6.3",
     "sass-loader": "^7.0.3",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.10"
