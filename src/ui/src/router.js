@@ -11,6 +11,7 @@ import { URLs } from './context/Consts'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
