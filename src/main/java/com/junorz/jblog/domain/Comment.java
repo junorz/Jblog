@@ -19,6 +19,7 @@ import com.junorz.jblog.context.Messages;
 import com.junorz.jblog.context.dto.CommentCreateDTO;
 import com.junorz.jblog.context.exception.ResourceNotFoundException;
 import com.junorz.jblog.context.orm.Repository;
+import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.context.utils.Validator;
 
 import lombok.Data;
@@ -63,7 +64,7 @@ public class Comment {
     
     public static Comment create(CommentCreateDTO dto, Repository rep) {
         Validator.validate(v -> {
-            v.check(Blog.info(rep).isCommentable(), Messages.COMMENT_IS_NOT_ALLOWED);
+            v.check(AppInfoUtil.getBlogInfo().isCommentable(), Messages.COMMENT_IS_NOT_ALLOWED);
         });
         
         Post post = Optional.of(Post.findById(Long.parseLong(dto.getPostId()), rep))
@@ -76,7 +77,11 @@ public class Comment {
         comment.setCreateDateTime(ZonedDateTime.now());
         comment.setPost(post);
         
+        // Increase comments count in post
+        post.setCommentsCount(post.getCommentsCount() + 1);
+        
         rep.em().persist(comment);
+        rep.em().merge(post);
         
         return comment;
     }

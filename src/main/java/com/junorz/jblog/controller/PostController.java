@@ -37,9 +37,9 @@ public class PostController {
     @GetMapping("")
     public ResponseEntity<List<PostDTO>> findAll(@RequestParam Map<String, String> params) {
         // Return all posts when paging parameters not specified.
-        if (Strings.isNullOrEmpty(params.get("pageNum")) || Strings.isNullOrEmpty(params.get("limit"))) {
+        if (Strings.isNullOrEmpty(params.get("pageNum")) || Strings.isNullOrEmpty(params.get("limit")) || Strings.isNullOrEmpty(params.get("isPostView"))) {
             List<PostDTO> postDTOList = postService.findAll().stream()
-                    .map(PostDTO::of)
+                    .map(p -> PostDTO.of(p, true))
                     .collect(Collectors.toList());
             return ControllerUtil.ok(postDTOList);
         }
@@ -47,21 +47,22 @@ public class PostController {
         int pageNum = Integer.parseInt(params.get("pageNum"));
         // Items count per page
         int limit = Integer.parseInt(params.get("limit"));
+        boolean isPostView = Boolean.parseBoolean(params.get("isPostView"));
         List<PostDTO> postDTOList = postService.paging(pageNum, limit).stream()
-                .map(PostDTO::of)
+                .map(p -> PostDTO.of(p, isPostView))
                 .collect(Collectors.toList());
         return ControllerUtil.ok(postDTOList);
     }
     
     @PostMapping("/create")
     public ResponseEntity<PostDTO> create(@Valid @RequestBody PostCreateDTO dto) {
-        return ControllerUtil.ok(PostDTO.of(postService.create(dto)));
+        return ControllerUtil.ok(PostDTO.of(postService.create(dto), false));
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> findById(@PathVariable("id") String id) {
         long postId = Long.parseLong(id);
-        return ControllerUtil.ok(PostDTO.of(postService.findById(postId)));
+        return ControllerUtil.ok(PostDTO.of(postService.findById(postId), true));
     }
     
 }

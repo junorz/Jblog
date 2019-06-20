@@ -9,24 +9,22 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Deprecated
 public class BlogDTO {
 
     private String blogName;
     private String subtitle;
-    private String adminName;
     private boolean isPrivate;
     private boolean isCommentable;
     private ZonedDateTime since;
-    private long postsCount;
-    private long commentsCount;
     private boolean isInitialized;
 
     public static BlogDTO of(Blog blog) {
-        if(blog == null) {
-            return new BlogDTO("JBlog", "A subtitle", null, false, false, null, 0, 0, false);
+        if (blog == null) {
+            return new BlogDTO("JBlog", "A subtitle", false, false, null, false);
         }
-        return new BlogDTO(blog.getName(), blog.getSubtitle(), blog.getAdmin().getName(), blog.isPrivate(),
-                blog.isCommentable(), blog.getCreateDateTime(), 0, 0, true);
+        return new BlogDTO(blog.getName(), blog.getSubtitle(), blog.isPrivate(),
+                blog.isCommentable(), blog.getCreateDateTime(), true);
     }
 
 }

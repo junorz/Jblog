@@ -15,22 +15,24 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostDTO {
 
-    private long id;
-    private String title;
-    private String content;
-    private String author;
-    private List<CommentDTO> commentList;
-    private ZonedDateTime createDateTime;
-    private ZonedDateTime modifyDateTime;
+	private long id;
+	private String title;
+	private String content;
+	private String author;
+	private List<CommentDTO> commentList;
+	// For home page display
+	private long commentsCount;
+	private ZonedDateTime createDateTime;
+	private ZonedDateTime modifyDateTime;
 
-    public static PostDTO of(Post post) {
-        return new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getAuthor().getName(),
-                Optional.ofNullable(post.getCommentList())
-                        .map(list -> list.stream().map(CommentDTO::of)
-                                .sorted((o1, o2) -> o2.getCreateDateTime().compareTo(o1.getCreateDateTime()))
-                                .collect(Collectors.toList()))
-                        .orElse(new ArrayList<CommentDTO>()),
-                post.getCreateDateTime(), post.getModifyDateTime());
-    }
+	public static PostDTO of(Post post, boolean isPostView) {
+	    if(isPostView) {
+	        return new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getAuthor().getName(),
+	                Optional.ofNullable(post.getCommentList()).map(list -> list.stream().map(c -> CommentDTO.of(c)).collect(Collectors.toList())).orElse(new ArrayList<CommentDTO>()),
+	                post.getCommentsCount(), post.getCreateDateTime(), post.getModifyDateTime());
+	    }
+	    return new PostDTO(post.getId(), post.getTitle(), post.getContent(), "", new ArrayList<CommentDTO>(), post.getCommentsCount(), post.getCreateDateTime(), post.getModifyDateTime()); 
+	            
+	}
 
 }

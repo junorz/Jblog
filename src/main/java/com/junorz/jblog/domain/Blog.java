@@ -37,7 +37,7 @@ public class Blog implements Serializable {
     @Column
     private String subtitle;
     
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "admin_user_id", referencedColumnName = "id")
     private User admin;
     
@@ -85,5 +85,6 @@ public class Blog implements Serializable {
         
         return blog;
     }
+    
 
 }

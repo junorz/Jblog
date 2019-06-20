@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.junorz.jblog.context.bean.AppInfo.BlogInfo;
 import com.junorz.jblog.context.dto.BlogCreateDTO;
-import com.junorz.jblog.context.dto.BlogDTO;
+import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.context.utils.ControllerUtil;
 import com.junorz.jblog.service.BlogService;
 
@@ -27,13 +28,14 @@ public class BlogController {
     }
 
     @GetMapping("")
-    public ResponseEntity<BlogDTO> info() {
-        return ControllerUtil.ok(blogService.info());
+    public ResponseEntity<BlogInfo> info() {
+        return ControllerUtil.ok(AppInfoUtil.getBlogInfo());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BlogDTO> create(@Valid @RequestBody BlogCreateDTO dto) {
-        return ControllerUtil.ok(BlogDTO.of(blogService.create(dto)));
+    public ResponseEntity<BlogInfo> create(@Valid @RequestBody BlogCreateDTO dto) {
+        blogService.create(dto);
+        return ControllerUtil.ok(AppInfoUtil.getBlogInfo());
     }
     
     @GetMapping("/auth")

@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.junorz.jblog.context.Messages;
 import com.junorz.jblog.context.dto.PostCreateDTO;
 import com.junorz.jblog.context.orm.Repository;
+import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.context.utils.Validator;
 
 import lombok.Data;
@@ -57,6 +58,9 @@ public class Post implements Serializable {
     @Column
     private ZonedDateTime modifyDateTime;
     
+    @Column
+    private long commentsCount = 0;
+    
     public static List<Post> findAll(Repository rep) {
         return rep.em().createQuery("SELECT p FROM Post p ORDER BY p.createDateTime DESC", Post.class).getResultList();
     }
@@ -75,7 +79,7 @@ public class Post implements Serializable {
     
     public static Post findById(long id, Repository rep) {
         Post post = rep.em().find(Post.class, id);
-        if(!Blog.info(rep).isCommentable()) {
+        if(!AppInfoUtil.getBlogInfo().isCommentable()) {
             post.setCommentList(new ArrayList<Comment>());
         }
         return post; 
@@ -96,4 +100,5 @@ public class Post implements Serializable {
         rep.em().persist(post);
         return post;
     }
+    
 }
