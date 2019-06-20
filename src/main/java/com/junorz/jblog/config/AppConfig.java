@@ -64,6 +64,9 @@ public class AppConfig {
             
             registry.addResourceHandler("/favicon.ico")
                 .addResourceLocations("classpath:/static/");
+            
+            registry.addResourceHandler("/index.html")
+                .addResourceLocations("classpath:/templates/");
         }
         
     }
