@@ -1,1 +1,0 @@
-export const SET_BLOG_INFO = 'SET_BLOG_INFO';
