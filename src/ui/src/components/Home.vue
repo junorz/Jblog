@@ -12,7 +12,7 @@
           </span>&nbsp;
           <span class="postMeta">
             <i class="el-icon-chat-dot-round"></i>
-            &nbsp;{{ post.commentList.length }}
+            &nbsp;{{ post.commentsCount }}
           </span>
         </el-card>
         <el-row type="flex" justify="center">
@@ -121,17 +121,7 @@ export default {
   },
   methods: {
     getPosts: function() {
-      get(
-        URLs.post.base,
-        {
-          pageNum: 1,
-          limit: 6
-        },
-        response => {
-          this.postList = response.data;
-          this.loading = false;
-        }
-      );
+      this.changePage(1);
     },
     changePage: function(pageNum) {
       this.loading = true;
@@ -139,7 +129,8 @@ export default {
         URLs.post.base,
         {
           pageNum,
-          limit: 6
+          limit: 6,
+          isPostView: false
         },
         response => {
           this.postList = response.data;

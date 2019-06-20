@@ -122,6 +122,8 @@ div.featureTitle {
 <script>
 import { get, post, msg } from "../utils/APIUtil";
 import { URLs } from "../context/Consts";
+import { mapActions } from "vuex";
+import * as Types from "../store/types";
 
 export default {
   methods: {
@@ -143,7 +145,7 @@ export default {
     getPostList: function(pageNum, limit) {
       get(
         URLs.post.base,
-        { pageNum, limit },
+        { pageNum, limit, isPostView: false },
         response => (this.postList = response.data)
       );
     },
@@ -159,7 +161,8 @@ export default {
     },
     changeCommentListPage: function(pageNum) {
       this.getCommentList(pageNum, 10);
-    }
+    },
+    ...mapActions([Types.SET_BLOG_INFO])
   },
   data() {
     return {
@@ -173,6 +176,7 @@ export default {
     };
   },
   mounted() {
+    this.SET_BLOG_INFO();
     this.getBlogInfo();
     this.getPostList(1, 10);
     this.getCommentList(1, 10);
