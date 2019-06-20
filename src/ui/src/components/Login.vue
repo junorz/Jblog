@@ -27,6 +27,8 @@
 <script>
 import { post } from "../utils/APIUtil";
 import { URLs } from "../context/Consts";
+import { mapActions } from "vuex";
+import * as Types from "../store/types";
 
 export default {
   methods: {
@@ -40,7 +42,8 @@ export default {
         () => this.$router.push("/admin"),
         () => this.$message.error("认证失败")
       );
-    }
+    },
+    ...mapActions([Types.SET_BLOG_INFO])
   },
   data() {
     return {
@@ -49,6 +52,9 @@ export default {
         password: ""
       }
     };
+  },
+  mounted() {
+    this.SET_BLOG_INFO();
   }
 };
 </script>

@@ -14,7 +14,7 @@
       <div class="postContent">{{ this.postInfo.content }}</div>
     </el-card>
     <el-row class="commentArea" :gutter="40" v-if="blogInfo.commentable">
-      <el-col :md="24" :lg="12" style="margin-top: 15px;">
+      <el-col :md="24" :lg="12" style="margin-top: 15px;" v-if="postInfo.commentList.length != 0">
         <el-card shadow="never" :key="comment.id" v-for="comment in this.postInfo.commentList">
           <el-row type="flex" justify="space-between">
             <div>
