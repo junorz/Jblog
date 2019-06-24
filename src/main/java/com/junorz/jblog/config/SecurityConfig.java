@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         http.formLogin()
-            .loginPage("/jblog/api/blog/login")
+            .loginPage("/api/blog/login")
             .usernameParameter("username")
             .passwordParameter("password")
             .successHandler(new AuthSuccessHandler())
@@ -66,9 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers("/jblog/api/blog/create").permitAll()
-            .antMatchers("/jblog/api/blog/login").permitAll()
-            .antMatchers("/jblog/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName());
+            .antMatchers("/api/blog/create").permitAll()
+            .antMatchers("/api/blog/login").permitAll()
+            .antMatchers("/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName());
 
     }
 

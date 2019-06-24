@@ -24,7 +24,7 @@ import com.junorz.jblog.service.PostService;
 
 
 @RestController
-@RequestMapping("/jblog/api/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
     private final PostService postService;

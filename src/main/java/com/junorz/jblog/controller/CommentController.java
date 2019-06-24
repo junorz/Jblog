@@ -22,7 +22,7 @@ import com.junorz.jblog.context.utils.ControllerUtil;
 import com.junorz.jblog.service.CommentService;
 
 @RestController
-@RequestMapping("/jblog/api/comments")
+@RequestMapping("/api/comments")
 public class CommentController {
     
     private final CommentService commentService;

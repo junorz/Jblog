@@ -18,7 +18,7 @@ import com.junorz.jblog.context.utils.ControllerUtil;
 import com.junorz.jblog.service.BlogService;
 
 @RestController
-@RequestMapping("/jblog/api/blog")
+@RequestMapping("/api/blog")
 public class BlogController {
 
     private final BlogService blogService;
