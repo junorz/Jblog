@@ -51,5 +51,10 @@ public class AppInfoUtil {
             appInfo.getBlogInfo().setCommentsCount(appInfo.getBlogInfo().getCommentsCount() - 1);
         }
     }
+    
+    // The functions below update posts/comments count by searching in database
+    public static void updateBlogPostsAndCommentsCount() {
+        appInfo.updateBlogPostsAndCommentsCount();
+    }
 
 }

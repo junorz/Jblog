@@ -62,6 +62,13 @@ public class AppInfo {
             init();
         }
     }
+    
+    public void updateBlogPostsAndCommentsCount() {
+        synchronized (blogInfo) {
+            this.blogInfo.setPostsCount(Post.count(rep));
+            this.blogInfo.setCommentsCount(Comment.count(rep));
+        }
+    }
 
     @Data
     public static class BlogInfo {

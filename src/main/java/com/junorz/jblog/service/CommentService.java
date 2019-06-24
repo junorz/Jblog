@@ -8,7 +8,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.junorz.jblog.context.dto.CommentCreateDTO;
 import com.junorz.jblog.context.orm.Repository;
 import com.junorz.jblog.context.orm.TxTemplate;
-import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.domain.Comment;
 
 @Service
@@ -29,9 +28,12 @@ public class CommentService {
     public Comment create(CommentCreateDTO dto) {
         return TxTemplate.of(txm).tx(() -> {
             Comment comment = Comment.create(dto, rep);
-            AppInfoUtil.increaseBlogCommentsCount();
             return comment;
         });
+    }
+    
+    public boolean delete(long id) {
+        return TxTemplate.of(txm).tx(() -> Comment.delete(id, rep));
     }
 
 }

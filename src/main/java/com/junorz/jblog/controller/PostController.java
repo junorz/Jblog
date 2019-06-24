@@ -2,6 +2,7 @@ package com.junorz.jblog.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -62,7 +63,19 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> findById(@PathVariable("id") String id) {
         long postId = Long.parseLong(id);
-        return ControllerUtil.ok(PostDTO.of(postService.findById(postId), true));
+        return ControllerUtil.ok(Optional.ofNullable(postService.findById(postId)).map(post -> PostDTO.of(post, true)).orElse(null));
+    }
+    
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") String id) {
+        long postId = Long.parseLong(id);
+        return ControllerUtil.ok(postService.delete(postId));
+    }
+    
+    @PostMapping("/{id}/update")
+    public ResponseEntity<Boolean> update(@PathVariable("id") String id, @Valid @RequestBody PostCreateDTO dto) {
+        long postId = Long.parseLong(id);
+        return ControllerUtil.ok(postService.update(postId, dto));
     }
     
 }

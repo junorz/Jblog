@@ -51,7 +51,7 @@ public class Comment {
     private Post post;
     
     public static List<Comment> paging(int pageNum, int limit, Repository rep) {
-        return rep.em().createQuery("SELECT c FROM Comment c", Comment.class)
+        return rep.em().createQuery("SELECT c FROM Comment c ORDER BY c.id DESC", Comment.class)
                 .setFirstResult((pageNum - 1) * limit)
                 .setMaxResults(limit)
                 .getResultList();
@@ -83,7 +83,18 @@ public class Comment {
         rep.em().persist(comment);
         rep.em().merge(post);
         
+        AppInfoUtil.increaseBlogCommentsCount();
+        
         return comment;
+    }
+    
+    public static boolean delete(long id, Repository rep) {
+        Comment comment = rep.em().find(Comment.class, id);
+        rep.em().remove(comment);
+        AppInfoUtil.decreaseBlogCommentsCount();
+        Post post = comment.getPost();
+        post.setCommentsCount(post.getCommentsCount() - 1);
+        return true;
     }
     
 }

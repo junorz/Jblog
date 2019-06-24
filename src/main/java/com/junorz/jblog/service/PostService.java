@@ -8,7 +8,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.junorz.jblog.context.dto.PostCreateDTO;
 import com.junorz.jblog.context.orm.Repository;
 import com.junorz.jblog.context.orm.TxTemplate;
-import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.domain.Post;
 
 @Service
@@ -38,9 +37,17 @@ public class PostService {
     public Post create(PostCreateDTO dto) {
         return TxTemplate.of(txm).tx(() -> {
             Post post = Post.create(dto, rep);
-            AppInfoUtil.increaseBlogPostsCount();
             return post;
         });
     }
-
+    
+    public boolean delete(long id) {
+        return TxTemplate.of(txm).tx(() -> Post.delete(id, rep));
+    }
+    
+    public boolean update(long id, PostCreateDTO dto) { 
+        return TxTemplate.of(txm).tx(() -> Post.update(id, dto, rep));
+    }
+    
+    
 }

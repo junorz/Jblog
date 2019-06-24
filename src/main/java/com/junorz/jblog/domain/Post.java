@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.google.common.base.Strings;
 import com.junorz.jblog.context.Messages;
 import com.junorz.jblog.context.dto.PostCreateDTO;
+import com.junorz.jblog.context.exception.ResourceNotFoundException;
 import com.junorz.jblog.context.orm.Repository;
 import com.junorz.jblog.context.utils.AppInfoUtil;
 import com.junorz.jblog.context.utils.Validator;
@@ -98,7 +100,32 @@ public class Post implements Serializable {
         post.setCreateDateTime(ZonedDateTime.now());
         
         rep.em().persist(post);
+        
+        AppInfoUtil.increaseBlogPostsCount();
         return post;
+    }
+    
+    public static boolean delete(long id, Repository rep) {
+        Post post = rep.em().find(Post.class, id);
+        // Remove comments first.
+        rep.em().createQuery("DELETE FROM Comment c WHERE c.post = :post")
+            .setParameter("post", post)
+            .executeUpdate();
+        rep.em().remove(post);
+        AppInfoUtil.updateBlogPostsAndCommentsCount();
+        return true;
+    }
+    
+    public static boolean update(long id, PostCreateDTO dto, Repository rep) {
+        Post post = Optional.ofNullable(rep.em().find(Post.class, id))
+                .orElseThrow(() -> new ResourceNotFoundException(Messages.SYSTEM_RESOURCE_NOT_FOUND));
+        
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
+        post.setModifyDateTime(ZonedDateTime.now());
+        
+        rep.em().merge(post);
+        return true;
     }
     
 }

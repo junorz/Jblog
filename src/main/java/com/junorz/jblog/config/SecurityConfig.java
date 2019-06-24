@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +42,10 @@ import lombok.Data;
 @EnableConfigurationProperties(CorsConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+    
     private final UserService userService;
+
 
     public SecurityConfig(UserService userService) {
         this.userService = userService;
@@ -68,7 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/").permitAll()
             .antMatchers("/api/blog/create").permitAll()
             .antMatchers("/api/blog/login").permitAll()
-            .antMatchers("/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName());
+            .antMatchers("/api/posts/create").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName())
+            .antMatchers("/api/posts/**/edit").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName())
+            .antMatchers("/api/posts/**/delete").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName())
+            .antMatchers("/api/comments/**/delete").hasAnyRole(Authority.ROLE_ADMIN.getRoleName(), Authority.ROLE_SUPER_ADMIN.getRoleName());
 
     }
 
@@ -98,6 +106,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(corsConfig.getCors());
+        // Log CORS info
+        logger.info("The CORS list: {}", corsConfig.getCors());
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();

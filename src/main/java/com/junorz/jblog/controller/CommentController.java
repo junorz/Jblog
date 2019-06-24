@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +46,12 @@ public class CommentController {
     @PostMapping("/create")
     public ResponseEntity<CommentDTO> create(@Valid @RequestBody CommentCreateDTO dto) {
         return ControllerUtil.ok(CommentDTO.of(commentService.create(dto)));
+    }
+    
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") String id) {
+        long commentId = Long.parseLong(id);
+        return ControllerUtil.ok(commentService.delete(commentId));
     }
     
 }
