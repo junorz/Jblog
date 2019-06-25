@@ -10,3 +10,5 @@ jblog:
   cors:
     - "*"
   datafixture: false
+  
+logging:  file: /temp/jblog.log
