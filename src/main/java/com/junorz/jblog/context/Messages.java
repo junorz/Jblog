@@ -12,6 +12,7 @@ public interface Messages {
     // Post
     public static String POST_TITLE_CANNOT_BE_NULL = "POST_TITLE_CANNOT_BE_NULL";
     public static String POST_CONTENT_CANNOT_BE_NULL = "POST_CONTENT_CANNOT_BE_NULL";
+    public static String BLOG_PASSWORD_CANNOT_BE_NULL = "BLOG_PASSWORD_CANNOT_BE_NULL";
     
     // Comment
     public static String COMMENT_IS_NOT_ALLOWED = "COMMENT_IS_NOT_ALLOWED";

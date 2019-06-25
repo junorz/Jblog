@@ -24,11 +24,17 @@ public class BlogService {
         return TxTemplate.of(txm).tx(() -> Blog.info(rep));
     }
 
-    public Blog create(BlogCreateDTO dto) {
-        return TxTemplate.of(txm).tx(() -> {
-            Blog blog = Blog.create(dto, rep);
+    public void create(BlogCreateDTO dto) {
+        TxTemplate.of(txm).tx(() -> {
+            Blog.create(dto, rep);
             AppInfoUtil.updateBlogInfo();
-            return blog;
+        });
+    }
+    
+    public void update(BlogCreateDTO dto) {
+        TxTemplate.of(txm).tx(() -> {
+            Blog.update(dto, rep);
+            AppInfoUtil.updateBlogInfo();
         });
     }
 

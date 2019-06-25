@@ -47,5 +47,11 @@ public class BlogController {
         }
         return ControllerUtil.ok(isAnonymous ? false : true);
     }
+    
+    @PostMapping("/update")
+    public ResponseEntity<BlogInfo> update(@Valid @RequestBody BlogCreateDTO dto) {
+        blogService.update(dto);
+        return ControllerUtil.ok(AppInfoUtil.getBlogInfo());
+    }
 
 }
